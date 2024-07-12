@@ -1,7 +1,7 @@
 package com.javaprojects.service;
 
 import com.javaprojects.entity.Employee;
-import com.javaprojects.exceptions.EmployeeNotFoundException;
+import com.javaprojects.exceptions.ResourceNotFoundException;
 import com.javaprojects.model.EmployeeModel;
 import com.javaprojects.repository.EmployeeRepo;
 import org.modelmapper.ModelMapper;
@@ -41,14 +41,14 @@ public class EmployeeService {
         Optional<Employee> employee = employeeRepo.findById(id);
         return employee
                 .map(emp -> modelMapper.map(emp, EmployeeModel.class))
-                .orElseThrow(() -> new EmployeeNotFoundException("Employee not found with Id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found with Id: " + id));
     }
 
     public void deleteEmployee(Long id) {
         if (employeeRepo.existsById(id)) {
             employeeRepo.deleteById(id);
         } else {
-            throw new EmployeeNotFoundException("Employee not found with Id: " + id);
+            throw new ResourceNotFoundException("Employee not found with Id: " + id);
         }
     }
 }
